@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+venv/
+negocito.db
+negocito.db-journal
+server.log
+gunicorn.log

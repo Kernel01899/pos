@@ -1,0 +1,13 @@
+services:
+  negocito-pos:
+    build: .
+    ports:
+      - "5055:5055"
+    volumes:
+      - negocito_data:/app/data
+    environment:
+      - DB_DIR=/app/data
+    restart: unless-stopped
+
+volumes:
+  negocito_data:

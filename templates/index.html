@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Negocito POS</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">🧾 Negocito <span>POS</span></div>
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="vender">Vender</button>
+      <button class="tab-btn" data-tab="inventario">Inventario</button>
+      <button class="tab-btn" data-tab="reportes">Reportes</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ================= VENDER ================= -->
+    <section id="tab-vender" class="tab-panel active">
+      <div class="grid-2">
+        <div class="card">
+          <h2>Productos</h2>
+          <div id="product-grid" class="product-grid"></div>
+        </div>
+
+        <div class="card cart-card">
+          <h2>Carrito</h2>
+          <div id="cart-items" class="cart-items"></div>
+          <div class="cart-totals">
+            <div class="row"><span>Subtotal</span><span id="cart-subtotal">$0.00</span></div>
+            <div class="row"><span>IVU (11.5%)</span><span id="cart-ivu">$0.00</span></div>
+            <div class="row total"><span>Total</span><span id="cart-total">$0.00</span></div>
+          </div>
+
+          <div class="payment-methods">
+            <label><input type="radio" name="payment" value="ath_movil" checked> ATH Móvil <em>(simulado)</em></label>
+            <label><input type="radio" name="payment" value="tarjeta"> Tarjeta</label>
+            <label><input type="radio" name="payment" value="efectivo"> Efectivo</label>
+          </div>
+
+          <button id="checkout-btn" class="btn btn-primary" disabled>Cobrar</button>
+          <div id="checkout-result"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= INVENTARIO ================= -->
+    <section id="tab-inventario" class="tab-panel">
+      <div class="card">
+        <h2>Agregar / editar producto</h2>
+        <form id="product-form" class="inline-form">
+          <input type="hidden" id="product-id" />
+          <input type="text" id="p-name" placeholder="Nombre" required />
+          <input type="text" id="p-category" placeholder="Categoría" value="General" />
+          <input type="number" id="p-price" placeholder="Precio" step="0.01" min="0" required />
+          <input type="number" id="p-stock" placeholder="Cantidad" min="0" required />
+          <input type="number" id="p-threshold" placeholder="Alerta stock bajo" min="0" value="5" />
+          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="button" id="product-cancel" class="btn btn-ghost" style="display:none">Cancelar</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Inventario actual</h2>
+        <table class="table" id="inventory-table">
+          <thead>
+            <tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Stock</th><th></th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= REPORTES ================= -->
+    <section id="tab-reportes" class="tab-panel">
+      <div class="card">
+        <div class="report-header">
+          <h2>Resumen de ventas</h2>
+          <select id="report-period">
+            <option value="today">Hoy</option>
+            <option value="week">Últimos 7 días</option>
+            <option value="month">Últimos 30 días</option>
+          </select>
+        </div>
+        <div class="stat-grid">
+          <div class="stat"><span id="stat-count">0</span><label>Ventas</label></div>
+          <div class="stat"><span id="stat-subtotal">$0.00</span><label>Subtotal</label></div>
+          <div class="stat"><span id="stat-ivu">$0.00</span><label>IVU cobrado</label></div>
+          <div class="stat"><span id="stat-total">$0.00</span><label>Total</label></div>
+        </div>
+        <div class="grid-2">
+          <div>
+            <h3>Por método de pago</h3>
+            <ul id="report-by-method" class="simple-list"></ul>
+          </div>
+          <div>
+            <h3>Productos más vendidos</h3>
+            <ul id="report-top-products" class="simple-list"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>⚠️ Inventario bajo</h2>
+        <ul id="low-stock-list" class="simple-list"></ul>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
